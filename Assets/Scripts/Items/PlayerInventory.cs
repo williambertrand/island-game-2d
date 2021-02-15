@@ -14,8 +14,9 @@ public class PlayerInventory : MonoBehaviour
     void Start()
     {
         itemCount = new Dictionary<string, int>();
-        itemCount["GRASS"] = 0;
-        itemCount["WOOD"] = 0;
+        itemCount["GRASS"] = 10;
+        itemCount["WOOD"] = 10;
+        UpdateUI();
     }
 
     // Update is called once per frame
@@ -27,7 +28,7 @@ public class PlayerInventory : MonoBehaviour
     public void OnPickup(string id)
     {
         itemCount[id] += 1;
-        Debug.Log("PICKED UP: " + id);
+        PlayerInventoryUI.Instance.UpdateValue(id, itemCount[id]);
     }
 
 
@@ -50,6 +51,15 @@ public class PlayerInventory : MonoBehaviour
         foreach(string item in costs.Keys)
         {
             itemCount[item] -= costs[item];
+            PlayerInventoryUI.Instance.UpdateValue(item, itemCount[item]);
+        }
+    }
+
+    private void UpdateUI()
+    {
+        foreach (string item in itemCount.Keys)
+        {
+            PlayerInventoryUI.Instance.UpdateValue(item, itemCount[item]);
         }
     }
 
